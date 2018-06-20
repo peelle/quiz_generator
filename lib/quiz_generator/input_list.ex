@@ -29,8 +29,8 @@ list = update_in(list."QA", &MapSet.put(&1, %QuizGenerator.QA{ question: "别", 
 list = update_in(list."QA", &MapSet.put(&1, %QuizGenerator.QA{ question: "问", answer: "Ask" })) 
 list = update_in(list."QA", &MapSet.put(&1, %QuizGenerator.QA{ question: "我", answer: "I" })) 
 list = update_in(list."QA", &MapSet.put(&1, %QuizGenerator.QA{ question: "家乡", answer: "Hometown; Homeland" })) 
-QuizGenerator.Question.get_multiple_choices(list, "SomeAnswer", "")
-QuizGenerator.Question.generate_questions(list, "")
+QuizGenerator.Question.generate(:multiple_choice, list, "")
+QuizGenerator.Question.generate(:fill_in_blank, list, "")
 
  """
 
