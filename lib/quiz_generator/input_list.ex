@@ -1,36 +1,42 @@
 defmodule QuizGenerator.InputList do
+  alias __MODULE__
 
-  defstruct [:QA]
+  @enforce_keys [:q_and_a] # Later versions answer may become optional.
+  defstruct [:q_and_a]
 
+  def new(), do: %InputList{q_and_a: MapSet.new()}
+
+  def insert(%InputList{} = list, question, answer) do
+    update_in(list.q_and_a, &MapSet.put(&1, %{ question: question, answer: answer })) 
+  end
+
+  def get_column(%InputList{ q_and_a: list}, column_name) do
+    MapSet.to_list(list)
+    |> Enum.map( fn(item) -> item[column_name] end )
+  end
 
 @doc """
 
 ## Examples
 #
-iex(15)> list = %QuizGenerator.InputList{ QA: MapSet.new() }                                            %QuizGenerator.InputList{QA: #MapSet<[]>}
-iex(16)> list = update_in(list."QA", &MapSet.put(&1, %QuizGenerator.QA{ question: "龘东", answer: "JJ" }))
-%QuizGenerator.InputList{
-  QA: #MapSet<[%QuizGenerator.QA{answer: "JJ", question: "龘东"}]>
-}
-iex(17)> list = update_in(list."QA", &MapSet.put(&1, %QuizGenerator.QA{ question: "车龘东", answer: "JJC" })) 
-%QuizGenerator.InputList{
-  QA: #MapSet<[
-    %QuizGenerator.QA{answer: "JJ", question: "龘东"},
-    %QuizGenerator.QA{answer: "JJC", question: "车龘东"}
-  ]>
-}
 
-list = %QuizGenerator.InputList{ QA: MapSet.new() }
-list = update_in(list."QA", &MapSet.put(&1, %QuizGenerator.QA{ question: "车龘东", answer: "JJC" })) 
-list = update_in(list."QA", &MapSet.put(&1, %QuizGenerator.QA{ question: "漂", answer: "Drift; Float" })) 
-list = update_in(list."QA", &MapSet.put(&1, %QuizGenerator.QA{ question: "向", answer: "Direction" })) 
-list = update_in(list."QA", &MapSet.put(&1, %QuizGenerator.QA{ question: "北方", answer: "North; Northern place" })) 
-list = update_in(list."QA", &MapSet.put(&1, %QuizGenerator.QA{ question: "别", answer: "Don't; Other" })) 
-list = update_in(list."QA", &MapSet.put(&1, %QuizGenerator.QA{ question: "问", answer: "Ask" })) 
-list = update_in(list."QA", &MapSet.put(&1, %QuizGenerator.QA{ question: "我", answer: "I" })) 
-list = update_in(list."QA", &MapSet.put(&1, %QuizGenerator.QA{ question: "家乡", answer: "Hometown; Homeland" })) 
-QuizGenerator.Question.generate(:multiple_choice, list, "")
-QuizGenerator.Question.generate(:fill_in_blank, list, "")
+alias QuizGenerator.{InputList, Question}
+
+list = InputList.new()
+
+list = InputList.insert(list, "车龘东", "JJC")
+list = InputList.insert(list, "车龘东", "JJC" ) 
+list = InputList.insert(list, "漂", "Drift; Float" ) 
+list = InputList.insert(list, "向", "Direction" ) 
+list = InputList.insert(list, "北方", "North; Northern place" ) 
+list = InputList.insert(list, "别", "Don't; Other" ) 
+list = InputList.insert(list, "问", "Ask" ) 
+list = InputList.insert(list, "我", "I" ) 
+list = InputList.insert(list, "家乡", "Hometown; Homeland" ) 
+
+Question.generate(:multiple_choice, list, "")
+Question.generate(:fill_in_blank, list, "")
+Question.generate(:matching, list, "")
 
  """
 
