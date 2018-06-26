@@ -24,14 +24,15 @@ alias QuizGenerator.{InputList, Question}
 
 list = InputList.new()
 
-list = InputList.insert(list, "车龘东", "JJC")
-list = InputList.insert(list, "车龘东", "JJC" ) 
+list = InputList.insert(list, "我", "I; Me" ) 
 list = InputList.insert(list, "漂", "Drift; Float" ) 
+list = InputList.insert(list, "没", "Not have; Is not; be without" ) 
 list = InputList.insert(list, "向", "Direction" ) 
+list = InputList.insert(list, "有", "Have; Possess, own; exist; contain" ) 
 list = InputList.insert(list, "北方", "North; Northern place" ) 
+list = InputList.insert(list, "忍耐", "Patience" ) 
 list = InputList.insert(list, "别", "Don't; Other" ) 
 list = InputList.insert(list, "问", "Ask" ) 
-list = InputList.insert(list, "我", "I" ) 
 list = InputList.insert(list, "家乡", "Hometown; Homeland" ) 
 
 Question.generate(:multiple_choice, list, "")
