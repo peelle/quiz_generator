@@ -1,21 +1,20 @@
 # QuizGenerator
 
-**TODO: Add description**
+## Description
 
-## Installation
+This is a project I started to help get myself familiar with Elixir. This module can
+generate questions in several formats. 
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `quiz_generator` to your list of dependencies in `mix.exs`:
+Current Features:
 
-```elixir
-def deps do
-  [
-    {:quiz_generator, "~> 0.1.0"}
-  ]
-end
-```
+* Multiple Choice
+* Fill In the blank
+* Matching
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/quiz_generator](https://hexdocs.pm/quiz_generator).
+Upcoming features include:
+
+* Answer Key
+* Quiz Templates
+* Options to specify limits.
+
 
