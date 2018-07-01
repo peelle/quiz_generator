@@ -16,32 +16,29 @@ defmodule QuizGenerator.InputList do
   end
 
 @doc """
+  The basic data structure for input. Currently it takes 2 fields, and stores them in a mapset.
 
-## Examples
-#
+  ## Example
+    alias QuizGenerator.{InputList, Question}
 
-alias QuizGenerator.{InputList, Question}
+    list = InputList.new()
 
-list = InputList.new()
+    list = InputList.insert(list, "我", "I; Me" ) 
+    list = InputList.insert(list, "漂", "Drift; Float" ) 
+    list = InputList.insert(list, "没", "Not have; Is not; be without" ) 
+    list = InputList.insert(list, "向", "Direction" ) 
+    list = InputList.insert(list, "有", "Have; Possess, own; exist; contain" ) 
+    list = InputList.insert(list, "北方", "North; Northern place" ) 
+    list = InputList.insert(list, "忍耐", "Patience" ) 
+    list = InputList.insert(list, "别", "Don't; Other" ) 
+    list = InputList.insert(list, "问", "Ask" ) 
+    list = InputList.insert(list, "家乡", "Hometown; Homeland" ) 
 
-list = InputList.insert(list, "我", "I; Me" ) 
-list = InputList.insert(list, "漂", "Drift; Float" ) 
-list = InputList.insert(list, "没", "Not have; Is not; be without" ) 
-list = InputList.insert(list, "向", "Direction" ) 
-list = InputList.insert(list, "有", "Have; Possess, own; exist; contain" ) 
-list = InputList.insert(list, "北方", "North; Northern place" ) 
-list = InputList.insert(list, "忍耐", "Patience" ) 
-list = InputList.insert(list, "别", "Don't; Other" ) 
-list = InputList.insert(list, "问", "Ask" ) 
-list = InputList.insert(list, "家乡", "Hometown; Homeland" ) 
+  Question.generate(:multiple_choice, list, "")
+  Question.generate(:fill_in_blank, list, "")
+  Question.generate(:matching, list, "")
 
-Question.generate(:multiple_choice, list, "")
-Question.generate(:fill_in_blank, list, "")
-Question.generate(:matching, list, "")
-
- """
-
-
+  """
 
 end
 

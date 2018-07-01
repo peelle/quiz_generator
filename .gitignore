@@ -25,3 +25,5 @@ quiz_generator-*.tar
 # Some generated file from Mix.
 .formatter.exs
 
+# Ignore swap files.
+.swp
