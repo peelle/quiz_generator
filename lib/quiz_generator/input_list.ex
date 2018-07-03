@@ -34,9 +34,9 @@ defmodule QuizGenerator.InputList do
     list = InputList.insert(list, "问", "Ask" ) 
     list = InputList.insert(list, "家乡", "Hometown; Homeland" ) 
 
-  Question.generate(:multiple_choice, list, "")
-  Question.generate(:fill_in_blank, list, "")
-  Question.generate(:matching, list, "")
+  Question.generate(:multiple_choice, list, %{ max_questions: 5, max_choices: 3})
+  Question.generate(:fill_in_blank, list, %{ max_questions: 7, max_choices: nil})
+  Question.generate(:matching, list)
 
   """
 

@@ -26,4 +26,5 @@ quiz_generator-*.tar
 .formatter.exs
 
 # Ignore swap files.
-.swp
+*.swp
+*.swo
