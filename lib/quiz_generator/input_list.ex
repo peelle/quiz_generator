@@ -10,8 +10,17 @@ defmodule QuizGenerator.InputList do
     update_in(list.q_and_a, &MapSet.put(&1, %{ question: question, answer: answer })) 
   end
 
+  def insert(%InputList{} = list, question, answer, extra_info) do
+    update_in(list.q_and_a, &MapSet.put(&1, %{ question: question, answer: answer, extra_info: extra_info })) 
+  end
+
   def get_column(%InputList{ q_and_a: list}, column_name) do
     MapSet.to_list(list)
+    |> Enum.map( fn(item) -> item[column_name] end )
+  end
+
+  def get_column_from_list( list, column_name) do
+    list
     |> Enum.map( fn(item) -> item[column_name] end )
   end
 
@@ -38,6 +47,20 @@ defmodule QuizGenerator.InputList do
   Question.generate(:fill_in_blank, list, %{ max_questions: 7, max_choices: nil})
   Question.generate(:matching, list)
 
+    list = InputList.new()
+
+    list = InputList.insert(list, "我", "I; Me", "wo" ) 
+    list = InputList.insert(list, "漂", "Drift; Float", "piao" ) 
+    list = InputList.insert(list, "没", "Not have; Is not; be without", "mei" ) 
+    list = InputList.insert(list, "向", "Direction", "xiang" ) 
+    list = InputList.insert(list, "有", "Have; Possess, own; exist; contain", "you" ) 
+    list = InputList.insert(list, "北方", "North; Northern place", "beifang" ) 
+    list = InputList.insert(list, "忍耐", "Patience", "rennai" ) 
+    list = InputList.insert(list, "别", "Don't; Other", "bie" ) 
+    list = InputList.insert(list, "问", "Ask", "wen" ) 
+    list = InputList.insert(list, "家乡", "Hometown; Homeland", "jia1xiang" ) 
+
+    Question.generate(:three_way, list)
   """
 
 end
