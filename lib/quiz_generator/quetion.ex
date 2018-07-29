@@ -23,13 +23,13 @@ defmodule QuizGenerator.Question do
   def generate(:matching, list,  options) do
     {:ok, 
       InputList.get_column(list, :question)
-      |> Enum.take(options.max_questions)
+      |> Stream.take(options.max_questions || Enum.count(list.q_and_a))
       |> Enum.zip(generate_matching(list, options))
     }
   end
 
   def generate(:three_way, list, options) do
-      sub_list = list.q_and_a |> Enum.take(options.max_questions || Enum.count(list.q_and_a))
+    sub_list = list.q_and_a |> Enum.take(options.max_questions || Enum.count(list.q_and_a))
     tuple = Enum.zip([ Enum.shuffle(InputList.get_column_from_list(sub_list, :question)), Enum.shuffle(InputList.get_column_from_list(sub_list, :answer)), Enum.shuffle(InputList.get_column_from_list(sub_list, :extra_info))])
     {:ok, tuple}
   end
@@ -51,15 +51,15 @@ defmodule QuizGenerator.Question do
   defp generate_multiple_choices( %InputList{} = list, answer, max_choices) do
     InputList.get_column(list, :answer)
     |> Enum.take_random(max_choices) # When enabling options, takes whatever they would specify + 1. ignoring the edge case that they would specify as much as or more more than exits.
-    |> Enum.into([answer]) # am not sure if this has any sort of order guarentee
-    |> Enum.uniq
-    |> Enum.take(max_choices) # TODO: replace with optional/default mpc answer #
+    |> Stream.into([answer]) # am not sure if this has any sort of order guarentee
+    |> Stream.uniq
+    |> Stream.take(max_choices) # TODO: replace with optional/default mpc answer #
     |> Enum.shuffle
   end
 
   defp generate_matching( %InputList{} = list, options) do
     InputList.get_column(list, :answer)
-    |> Enum.take(options.max_questions || Enum.count(list.q_and_a))
+    |> Stream.take(options.max_questions || Enum.count(list.q_and_a))
     |> Enum.shuffle
   end
 
