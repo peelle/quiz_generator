@@ -1,22 +1,22 @@
 defmodule QuizGenerator.Question do
   alias QuizGenerator.InputList
 
-  @default_options %{ max_questions: nil, max_choices: 3, answer_key: false }
+  @default_options %{ max_questions: nil, max_choices: 3 }
 
   def generate(a, b, options \\ @default_options ) # This is a function template.
 
   def generate(:multiple_choice, list, options ) do
-    {:ok, (for qa <- list."q_and_a" do 
-            %{ qa.question => generate_multiple_choices(list, qa.answer, options.max_choices) }
-          end ) 
-    |> Enum.take_random(options.max_questions || Enum.count(list.q_and_a)) 
+    {:ok, 
+      (for qa <- list."q_and_a", do: %{ qa.question => generate_multiple_choices(list, qa.answer, options.max_choices) } )
+      |> Enum.take_random(options.max_questions || Enum.count(list.q_and_a)) 
     }
   end
 
   # Fill In The Blank
   def generate(:fill_in_blank, list, options) do
     { :ok, 
-      (for qa <- list."q_and_a", do: %{ qa.question => "_______" }) |> Enum.take_random(options.max_questions || Enum.count(list.q_and_a))
+      (for qa <- list."q_and_a", do: %{ qa.question => "_______" }) 
+      |> Enum.take_random(options.max_questions || Enum.count(list.q_and_a))
     }
   end
 
@@ -41,8 +41,8 @@ defmodule QuizGenerator.Question do
     # I had a tough time figuring this out. 
     # Might be beacuse I picked the wrong DS. 
     for q <- questions,
-        question <- MapSet.to_list(list.q_and_a), 
-        List.first(Map.keys(q)) == Map.get(question, :question) do 
+        question <- list.q_and_a, 
+        List.first(Map.keys(q)) == Map.get(question, :question), into: [] do 
       { List.first(Map.keys(q)), question.answer }
     end
   end
@@ -62,5 +62,4 @@ defmodule QuizGenerator.Question do
     |> Stream.take(options.max_questions || Enum.count(list.q_and_a))
     |> Enum.shuffle
   end
-
 end

@@ -14,15 +14,9 @@ defmodule QuizGenerator.InputList do
     update_in(list.q_and_a, &MapSet.put(&1, %{ question: question, answer: answer, extra_info: extra_info })) 
   end
 
-  def get_column(%InputList{ q_and_a: list}, column_name) do
-    MapSet.to_list(list)
-    |> Enum.map( fn(item) -> item[column_name] end )
-  end
+  def get_column(%InputList{ q_and_a: list}, column_name), do: get_column_from_list(list, column_name)
 
-  def get_column_from_list( list, column_name) do
-    list
-    |> Enum.map( fn(item) -> item[column_name] end )
-  end
+  def get_column_from_list( list, column_name), do: Enum.map(list, fn(item) -> item[column_name] end )
 
 @doc """
   The basic data structure for input. Currently it takes 2 fields, and stores them in a mapset.
@@ -43,9 +37,12 @@ defmodule QuizGenerator.InputList do
     list = InputList.insert(list, "问", "Ask" ) 
     list = InputList.insert(list, "家乡", "Hometown; Homeland" ) 
 
-  Question.generate(:multiple_choice, list, %{ max_questions: 5, max_choices: 3})
-  Question.generate(:fill_in_blank, list, %{ max_questions: 7, max_choices: nil})
-  Question.generate(:matching, list)
+    {:ok, q_list} = Question.generate(:multiple_choice, list, %{ max_questions: 5, max_choices: 3})
+    Question.generate(:fill_in_blank, list, %{ max_questions: 7, max_choices: nil})
+    Question.generate(:matching, list)
+
+    Question.answer_key(q_list, list)
+
 
     list = InputList.new()
 
@@ -61,6 +58,8 @@ defmodule QuizGenerator.InputList do
     list = InputList.insert(list, "家乡", "Hometown; Homeland", "jia1xiang" ) 
 
     Question.generate(:three_way, list)
+
+
   """
 
 end
